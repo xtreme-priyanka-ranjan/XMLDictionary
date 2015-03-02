@@ -107,8 +107,15 @@
 
 - (NSDictionary *)dictionaryWithData:(NSData *)data
 {
-	NSXMLParser *parser = [[NSXMLParser alloc] initWithData:data];
-    return [self dictionaryWithParser:parser];
+    NSXMLParser *parser = [[NSXMLParser alloc] initWithData:data];
+    NSDictionary *parsedDict = [self dictionaryWithParser:parser];
+    
+    if (parser.parserError) {
+        NSLog(@"%@", parser.parserError);
+        parsedDict = nil;
+    }
+    
+    return parsedDict;
 }
 
 - (NSDictionary *)dictionaryWithString:(NSString *)string
